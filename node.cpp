@@ -7,13 +7,13 @@ void Node::add(const NodePtr & node)
     m_Children.push_back(node);
 }
 
-void Node::draw()
+void Node::draw(IDrawer & d)
 {
     for ( int i = 0; i < m_Children.size(); ++i ){
         if ( i > 0 ){
-            std::cout << ", ";
+            d.draw(", ");
         }
-        m_Children[i]->draw();
+        m_Children[i]->draw(d);
     }
 }
 
@@ -23,9 +23,9 @@ KeyValueNode::KeyValueNode(const StringPtr & key, const NodePtr & value):
 {
 }
 
-void KeyValueNode::draw()
+void KeyValueNode::draw(IDrawer & d)
 {
-    m_Key->draw();
-    std::cout << ": ";
-    m_Value->draw();
+    m_Key->draw(d);
+    d.draw(": ");
+    m_Value->draw(d);
 }

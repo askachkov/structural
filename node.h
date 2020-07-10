@@ -2,13 +2,13 @@
 
 #include <vector>
 #include <memory>
-#include <iostream>
+#include "drawer.h"
 
 class INode
 {
 public:
 	virtual ~INode(){}
-	virtual void draw() = 0;
+	virtual void draw(IDrawer & ) = 0;
 };
 
 typedef std::shared_ptr<INode> NodePtr;
@@ -18,7 +18,7 @@ class Node: public INode
 {
 public:
 	void add(const NodePtr & node);
-	virtual void draw() override;
+	virtual void draw(IDrawer & ) override;
 
 private:
 	NodeList m_Children;
@@ -33,11 +33,11 @@ public:
 		m_Node(node)
 	{
 	}
-	void draw() override
+	void draw(IDrawer & d) override
 	{
-		std::cout << open;
-		m_Node->draw();
-		std::cout << close;
+		d.draw(open);
+		m_Node->draw(d);
+		d.draw(close);
 	}
 };
 
@@ -50,9 +50,9 @@ public:
 		m_Value(v)
 	{
 	}
-	void draw() override
+	void draw(IDrawer & d) override
 	{
-		std::cout << m_Value;
+		d.draw(m_Value);
 	}
 };
 
@@ -68,7 +68,7 @@ class KeyValueNode: public INode
 	NodePtr m_Value;
 public:
 	KeyValueNode(const StringPtr & key, const NodePtr & value);
-	void draw() override;
+	void draw(IDrawer & d) override;
 };
 
 template<typename Node, typename ValueType, ValueType value>
@@ -76,12 +76,12 @@ class ProxyNode: public INode
 {
 	NodePtr m_Data;
 public:
-	void draw() override
+	void draw(IDrawer & d) override
 	{
 		if ( !m_Data ){
-			std::cout << "\nProxy do it job!\n";
+			d.draw("\nProxy do it job!\n");
 			m_Data = NodePtr(new Node(value));
 		}
-		m_Data->draw();
+		m_Data->draw(d);
 	}
 };

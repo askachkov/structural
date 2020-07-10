@@ -1,5 +1,8 @@
 #include "factory.h"
 #include <iostream>
+#include <map>
+
+std::map<std::string, std::shared_ptr<StringNode> > CASH; 
 
 std::shared_ptr<INode> createNum(double value)
 {
@@ -8,8 +11,14 @@ std::shared_ptr<INode> createNum(double value)
 
 std::shared_ptr<StringNode> createString(const std::string & s)
 {
+    auto it = CASH.find(s);
+    if ( it != CASH.end() ){
+        return it->second;
+    }
     std::shared_ptr<INode> innerStr(new ValueNode<std::string>(s));
     std::shared_ptr<StringNode> res(new StringNode(innerStr));
+    std::cout << "LOG: added str: " << s << std::endl;
+    CASH[s] = res;
     return res;
 }
 

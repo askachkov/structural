@@ -1,25 +1,15 @@
 #include "factory.h"
-#include <iostream>
-#include <map>
 
-std::map<std::string, std::shared_ptr<StringNode> > CASH; 
+std::shared_ptr<StringNode> createString(const std::string & s)
+{
+    std::shared_ptr<INode> innerStr(new ValueNode<std::string>(s));
+    std::shared_ptr<StringNode> res(new StringNode(innerStr));
+    return res;
+}
 
 std::shared_ptr<INode> createNum(double value)
 {
     return std::shared_ptr<INode>(new NumNode(value));
-}
-
-std::shared_ptr<StringNode> createString(const std::string & s)
-{
-    auto it = CASH.find(s);
-    if ( it != CASH.end() ){
-        return it->second;
-    }
-    std::shared_ptr<INode> innerStr(new ValueNode<std::string>(s));
-    std::shared_ptr<StringNode> res(new StringNode(innerStr));
-    std::cout << "LOG: added str: " << s << std::endl;
-    CASH[s] = res;
-    return res;
 }
 
 std::shared_ptr<INode> createPair(const std::string & key, const std::shared_ptr<INode> & value)

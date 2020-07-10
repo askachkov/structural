@@ -1,5 +1,6 @@
 #include "factory.h"
 #include "adapter.h"
+#include "flyweight.h"
 
 void exec(IDrawer & d)
 {
@@ -15,9 +16,9 @@ void exec(IDrawer & d)
 
 	std::shared_ptr<Node> obj = createGroup();
 	obj->add(createPair("params", NodePtr(new MapAdapterNode(mapObject))) );
-	obj->add(createPair("key1", createString("big data")));
-	obj->add(createPair("key2", createString("big data")));
-	obj->add(createPair("key3", createString("big data")));
+	obj->add(createPair("key1", createFlyweightString("big data")));
+	obj->add(createPair("key2", createFlyweightString("big data")));
+	obj->add(createPair("key3", createFlyweightString("big data 2")));
 	obj->add(createPair("nums", createArr(arr)));
 
 	obj->add(createPair("proxy", NodePtr( new ProxyNode<NumNode, int, 778>() ) ));
@@ -34,7 +35,7 @@ int main(int argc, char* argv[])
 	ConsoleDrawer d;
 	exec(d);
 	return 0;
-}
+}cd ..
 
 // {
 //    "params":{

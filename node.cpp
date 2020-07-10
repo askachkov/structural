@@ -9,7 +9,7 @@ void Node::add(const NodePtr & node)
 
 void Node::draw(IDrawer & d)
 {
-    for ( int i = 0; i < m_Children.size(); ++i ){
+    for ( size_t i = 0; i < m_Children.size(); ++i ){
         if ( i > 0 ){
             d.draw(", ");
         }

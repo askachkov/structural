@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 	ConsoleDrawer d;
 	exec(d);
 	return 0;
-}cd ..
+}
 
 // {
 //    "params":{
